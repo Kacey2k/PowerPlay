@@ -15,9 +15,4 @@ def heartbeat():
         response = client.run(f'tf_party_chat "{message}"')
     print(response)
 
-def timerLoop():
-    heartbeat()
-    t = Timer(5.0, timerLoop)
-    t.start() 
-
-timerLoop()
+heartbeat()
