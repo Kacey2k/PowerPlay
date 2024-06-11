@@ -1,12 +1,21 @@
+import configparser
+import os
 import rcon
 import threading
 from rcon.source import Client
 from threading import Timer
 
-# Using generic client parameters
-rcon_ip = "127.0.0.1"
-rcon_port = 27015
-rcon_password = "your_rcon_password"
+settings_file_path = os.path.join(os.path.dirname(__file__), '../settings.ini')
+config = configparser.ConfigParser()
+config.read(settings_file_path)
+
+try:
+    rcon_ip = config['rcon']['rcon_ip']
+    rcon_port = int(config['rcon']['rcon_port'])
+    rcon_password = config['rcon']['rcon_password']
+except KeyError as e:
+    raise KeyError(f"Key {e} not found in the 'rcon' section of the settings file")
+
 attempt = 0
 
 def heartbeat():

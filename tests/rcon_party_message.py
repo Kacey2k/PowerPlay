@@ -1,7 +1,6 @@
 import rcon
 import threading
 from rcon.source import Client
-from threading import Timer
 
 # Using generic client parameters
 rcon_ip = "127.0.0.1"
