@@ -1,5 +1,9 @@
 # Identifying "Session Calling Card" from sample data
 
+# TO USE:
+# Place this file in the same directory as your log file
+# Run the script, and it will output the number of unique "sessions" detected in the log file
+
 import re
 import os
 
