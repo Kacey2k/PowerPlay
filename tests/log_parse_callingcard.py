@@ -1,4 +1,6 @@
-# Identifying "Session Calling Card" from sample data
+# Identifying "Session Calling Card" from sample data.
+
+# This is likely not going to be used in the final product due to nuances in the way theses appear.
 
 # TO USE:
 # Place this file in the same directory as your log file

@@ -1,5 +1,3 @@
-# This script saves the input to a configuration file named gui_sample_settings.ini located in the root directory
-
 import tkinter as tk
 import configparser
 from tkinter import filedialog
@@ -55,18 +53,21 @@ def configure_window():
             print("[TEST] User input:", rcon_port, rcon_password, tf_directory)
             
             config = configparser.ConfigParser()
-            config.read('gui_sample_settings.ini')
+            config.read('settings_sample.ini')
             
             if not config.has_section('rcon'):
                 config.add_section('rcon')
             if not config.has_section('user'):
                 config.add_section('user')
+            if not config.has_section('app'):
+                config.add_section('app')
             
             config.set('rcon', 'rcon_port', rcon_port)
             config.set('rcon', 'rcon_password', rcon_password)
             config.set('user', 'directory', tf_directory)
+            config.set('app', 'state', '1')
             
-            with open('gui_sample_settings.ini', 'w') as configfile:
+            with open('settings_sample.ini', 'w') as configfile:
                 config.write(configfile)
                 
             print("[TEST] Settings updated successfully.")
