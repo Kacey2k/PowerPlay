@@ -4,7 +4,7 @@
  
 # Architecture Goal
 - Configure Client to accept RCon commands & generate console logs for the application.
-- Log parser extacts relevant data.
+- Log parser extracts relevant data.
 - Session objects generated, defined by current server/map configuration.
 - Session controller moves data to appropriate locations, creating new objects if necessary.
 - GUI Updates with latest data.
