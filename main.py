@@ -1,7 +1,11 @@
 import os
+import sys
 import configparser
-from src.gui.configure_window import configure_window
-from src.gui.main_window import main_window
+from PyQt5.QtWidgets import QApplication # god have mercy on my soul
+
+from configure_window import configure_window
+from main_window import MainWindow
+from src.modules.debug import log_message
 
 def main():
     def check_state():
@@ -17,19 +21,26 @@ def main():
                     else:
                         return False
                 else:
+                    log_message("[main.py: check_state] settings.ini missing 'app' option: 'state'")
                     return False
             else:
+                log_message("[main.py: check_state] settings.ini missing 'app' section")
                 return False
         else:
+            log_message("[main.py: check_state] settings.ini not found!")
             return False
-        
+
+    app = QApplication(sys.argv)
+
     if check_state() == False:
-        print("[main.py] NOT Configured")
+        log_message("[main.py: check_state] NOT Configured!")
         configure_window()
     else:
-        print("[main.py] Configured")
-        main_window()
+        log_message("[main.py: check_state] Configured!")
+        window = MainWindow()
+        window.show()
 
+    sys.exit(app.exec_())
 
 if __name__ == "__main__":
     main()
