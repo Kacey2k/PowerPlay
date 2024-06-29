@@ -4,6 +4,8 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QTabWidget
 from PyQt5.QtGui import QIcon
 
 from window_style import set_styles
+
+# Modules
 from src.modules.debug import debug_tab, log_message
 from src.modules.tab_players import players_tab
 from src.modules.tab_attributes import attributes_tab
@@ -13,6 +15,10 @@ from src.modules.tab_servers import servers_tab
 from src.modules.tab_tfmail import tfmail_tab
 from src.modules.tab_user import user_tab
 from src.modules.tab_settings import settings_tab
+
+# Util
+# from src.util.app_control import state_check
+from src.util.rcon_handler import r_debug_confirmation
 
 config = configparser.ConfigParser()
 config.read("settings.ini")
@@ -70,6 +76,7 @@ def main():
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
+    r_debug_confirmation()
     sys.exit(app.exec_())
 
 if __name__ == "__main__":
