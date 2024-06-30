@@ -7,7 +7,7 @@ from threading import Timer
 from src.modules.debug import log_message
 
 def r_execute(rcon_command):
-    """Accepts input as RCON Commands\n
+    """Accepts input as RCON Commands
     Requires RCON settings to be properly configured in settings.ini"""
     settings_file_path = os.path.join(os.path.dirname(__file__), '../../settings.ini')
     config = configparser.ConfigParser()
@@ -18,12 +18,16 @@ def r_execute(rcon_command):
         rcon_port = int(config['rcon']['rcon_port'])
         rcon_password = config['rcon']['rcon_password']
     except KeyError as e:
-        raise KeyError(f"Key {e} not found in the 'rcon' section of the settings file")
+        log_message(f"Key {e} not found in the 'rcon' section of the settings file")
+        return
 
-    with Client(rcon_ip, rcon_port, passwd=rcon_password) as client:
-        response = client.run(rcon_command)
-        log_message(f"[Rcon] Command sent: {rcon_command}")
-        return response
+    try:
+        with Client(rcon_ip, rcon_port, passwd=rcon_password) as client:
+            response = client.run(rcon_command)
+            log_message(f"[Rcon] Command sent: {rcon_command}")
+            return response
+    except Exception as e:
+        log_message(f"[Rcon] Failed to execute command '{rcon_command}': {e}")
     
 def r_debug_confirmation():
     r_execute('tf_party_chat "[PowerPlay] TF2 Connection Established!"')
