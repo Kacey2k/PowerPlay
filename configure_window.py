@@ -6,6 +6,7 @@ from PyQt5.QtGui import QIntValidator
 
 from src.modules.debug import log_message
 from main_window import MainWindow
+from config import check_config
 
 # Some Notes:
 # - This is the configuration window that appears when PowerPlay is not yet configured
@@ -108,6 +109,7 @@ class ConfigureWindow(QMainWindow):
                 config.write(configfile)
                 
             log_message("[configure_window.py] Configuration updated!")
+            check_config()
             return True
         else:
             log_message("[configure_window.py] Please provide all inputs!")

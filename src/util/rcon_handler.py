@@ -1,24 +1,26 @@
-import configparser
 import os
+import sys
 import rcon
 import threading
 from rcon.source import Client
 from threading import Timer
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
+
 from src.modules.debug import log_message
+from config import check_config, cfg_rcon_ip, cfg_rcon_port, cfg_rcon_password
 
 def r_execute(rcon_command):
-    """Accepts input as RCON Commands
+    """Accepts input as RCON Commands\n
     Requires RCON settings to be properly configured in settings.ini"""
-    settings_file_path = os.path.join(os.path.dirname(__file__), '../../settings.ini')
-    config = configparser.ConfigParser()
-    config.read(settings_file_path)
+    check_config()
 
     try:
-        rcon_ip = config['rcon']['rcon_ip']
-        rcon_port = int(config['rcon']['rcon_port'])
-        rcon_password = config['rcon']['rcon_password']
-    except KeyError as e:
-        log_message(f"Key {e} not found in the 'rcon' section of the settings file")
+        rcon_ip = cfg_rcon_ip
+        rcon_port = cfg_rcon_port
+        rcon_password = cfg_rcon_password
+    except Exception as e:
+        log_message(f"[Rcon] Missing RCON settings in settings.ini: {e}")
         return
 
     try:
