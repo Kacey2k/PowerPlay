@@ -72,11 +72,12 @@ class MainWindow(QMainWindow):
         log_message("[main_window.py] Main window initialized.")
         log_message("[main_window.py] Log for this run located in /data/logs")
 
+        r_debug_confirmation()
+
 def main():
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
-    r_debug_confirmation()
     sys.exit(app.exec_())
 
 if __name__ == "__main__":
