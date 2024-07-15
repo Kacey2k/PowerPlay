@@ -1,7 +1,9 @@
 import sys
+import os
 import configparser
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QPushButton, QVBoxLayout, QWidget, QFileDialog, QFrame
 from PyQt5.QtGui import QIntValidator
+from PyQt5.QtCore import Qt
 
 from src.modules.debug import log_message
 from main_window import MainWindow
@@ -68,9 +70,15 @@ class ConfigureWindow(QMainWindow):
         self.folder_select_button.clicked.connect(self.select_folder)
         dir_layout.addWidget(self.folder_select_button)
 
+        self.directory_error_label = QLabel("")
+        self.directory_error_label.setStyleSheet("color: red; font: 10pt Arial;")
+        self.directory_error_label.setHidden(True)
+        dir_layout.addWidget(self.directory_error_label)
+
         self.submit_button = QPushButton("Submit")
         self.submit_button.setStyleSheet("background-color: #555555; color: white; font: 12pt Arial;")
         self.submit_button.clicked.connect(self.launch_main_window)
+        self.submit_button.setEnabled(False)
         layout.addWidget(self.submit_button)
 
         container = QWidget()
@@ -78,9 +86,20 @@ class ConfigureWindow(QMainWindow):
         self.setCentralWidget(container)
 
     def select_folder(self):
-        folder_selected = QFileDialog.getExistingDirectory(self, "Select Directory")
+        folder_selected = QFileDialog.getExistingDirectory(self, "Select Team Fortress 2 Directory")
         if folder_selected:
-            self.input_TFDirectory.setText(folder_selected)
+            if self.validate_tf2_directory(folder_selected):
+                self.input_TFDirectory.setText(folder_selected)
+                self.directory_error_label.setHidden(True)
+                self.submit_button.setEnabled(True)
+            else:
+                self.input_TFDirectory.setText("")
+                self.directory_error_label.setText("**Please select your ''Team Fortress 2'' folder. Usually located in ''steamapps/common''**")
+                self.directory_error_label.setHidden(False)
+                self.submit_button.setEnabled(False)
+
+    def validate_tf2_directory(self, directory):
+        return os.path.basename(directory) == "Team Fortress 2"
 
     def submit_input(self):
         rcon_port = self.input_RCONPort.text()
