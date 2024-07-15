@@ -2,7 +2,6 @@ import sys
 import configparser
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QPushButton, QVBoxLayout, QWidget, QFileDialog, QFrame
 from PyQt5.QtGui import QIntValidator
-# AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH, thank you for understanding.
 
 from src.modules.debug import log_message
 from main_window import MainWindow
@@ -18,6 +17,7 @@ from config import check_config
 # - SteamID field
 # - Language field
 # - Debug field
+# - Help button
 
 class ConfigureWindow(QMainWindow):
     def __init__(self):
@@ -87,7 +87,7 @@ class ConfigureWindow(QMainWindow):
         rcon_password = self.input_RCONPassword.text()
         tf_directory = self.input_TFDirectory.text()
         if rcon_port and rcon_password and tf_directory:
-            submitted_info = f"[configure_window.py - submit_input] RCON Port: {rcon_port}, RCON Password: {rcon_password}, TF Directory: {tf_directory}"
+            submitted_info = f"[Configuration Window - Input Submission] | RCON Port: {rcon_port}, RCON Password: {rcon_password}, TF Directory: {tf_directory}"
             log_message(submitted_info)
             
             config = configparser.ConfigParser()
@@ -108,11 +108,11 @@ class ConfigureWindow(QMainWindow):
             with open('settings_sample.ini', 'w') as configfile:
                 config.write(configfile)
                 
-            log_message("[configure_window.py] Configuration updated!")
+            log_message("[Configure Window] | [Info] Configuration updated!")
             check_config()
             return True
         else:
-            log_message("[configure_window.py] Please provide all inputs!")
+            log_message("[Configure Window] | [Error] Please provide all inputs!")
             return False
 
     def launch_main_window(self):

@@ -17,23 +17,12 @@ from src.modules.tab_user import user_tab
 from src.modules.tab_settings import settings_tab
 
 # Util
-# from src.util.app_control import state_check
-from src.util.rcon_handler import r_debug_confirmation
+from config import check_config, cfg_app_debug
+from src.util.app_control import start_status_checker
 
-config = configparser.ConfigParser()
-config.read("settings.ini")
-debug_visible = False
-if config.has_section("app"):
-    if config.has_option("app", "debug"):
-        debug = config.get("app", "debug")
-        if debug == "1":
-            debug_visible = True
-            log_message("[main_window.py: config check] Debug mode enabled!")
-        else:
-            debug_visible = False
-    else:
-        log_message("[main_window.py: config check] settings.ini missing 'debug' option")
-        debug_visible = False
+
+check_config()
+debug_visible = cfg_app_debug == 1
 
     # Some Notes:
     # - Each tab is a separate module in the src/modules directory
@@ -69,10 +58,11 @@ class MainWindow(QMainWindow):
         if debug_visible:
             debug_tab(self.central_widget)
 
-        log_message("[main_window.py] Main window initialized.")
-        log_message("[main_window.py] Log for this run located in /data/logs")
+        log_message("[Main Window] | [Info] Main window initialized.")
+        log_message("[Main Window] | [Info] Log for this run located in /data/logs")
 
-        r_debug_confirmation()
+        start_status_checker()
+
 
 def main():
     app = QApplication(sys.argv)

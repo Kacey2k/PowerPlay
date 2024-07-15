@@ -20,16 +20,16 @@ def r_execute(rcon_command):
         rcon_port = cfg_rcon_port
         rcon_password = cfg_rcon_password
     except Exception as e:
-        log_message(f"[Rcon] Missing RCON settings in settings.ini: {e}")
+        log_message(f"[Rcon] | [Error] Missing RCON settings in settings.ini: {e}")
         return
 
     try:
         with Client(rcon_ip, rcon_port, passwd=rcon_password) as client:
             response = client.run(rcon_command)
-            log_message(f"[Rcon] Command sent: {rcon_command}")
+            log_message(f"[Rcon] | [Info] Command sent: {rcon_command}")
             return response
     except Exception as e:
-        log_message(f"[Rcon] Failed to execute command '{rcon_command}': {e}")
+        log_message(f"[Rcon] | [Error] Failed to execute command '{rcon_command}': {e}")
     
 def r_debug_confirmation():
     r_execute('tf_party_chat "[PowerPlay] TF2 Connection Established!"')

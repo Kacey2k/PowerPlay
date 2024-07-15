@@ -12,10 +12,10 @@ def main():
     app = QApplication(sys.argv)
 
     if cfg_app_state == 0:
-        log_message("[main.py: main] NOT Configured!")
+        log_message("[Main] | [Info] NOT Configured!")
         configure_window()
     else:
-        log_message("[main.py: main] Configured!")
+        log_message("[Main] | [Info] Configured!")
         window = MainWindow()
         window.show()
 

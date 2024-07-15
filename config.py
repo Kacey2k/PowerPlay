@@ -41,7 +41,7 @@ def check_config():
 
     # check for whether the settings.ini file exists
     if not os.path.exists('settings.ini'):
-        log_message("[CONFIG] settings.ini not found, creating a new one. Recommend restarting.")
+        log_message("[CONFIG] | [Warning] settings.ini not found, creating a new one. Recommend restarting.")
         config = configparser.ConfigParser()
         config['app'] = {
             'state': 0,
@@ -74,4 +74,4 @@ def check_config():
         cfg_user_directory = config.get('user', 'directory')
         cfg_user_language = config.get('user', 'language')
         cfg_user_steamid = config.get('user', 'steamid')
-        log_message("[CONFIG] Global configuration variables refreshed.")
+        log_message("[CONFIG] | [Info] Global configuration variables refreshed.")
