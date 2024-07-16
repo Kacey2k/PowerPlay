@@ -30,22 +30,3 @@ def r_execute(rcon_command):
             return response
     except Exception as e:
         log_message(f"[Rcon] | [Error] Failed to execute command '{rcon_command}': {e}")
-    
-def r_debug_confirmation():
-    r_execute('tf_party_chat "[PowerPlay] TF2 Connection Established!"')
-
-def r_debug_s_nolobby():
-    r_execute('tf_party_chat "[PowerPlay] No Active Session Detected."')
-
-def r_debug_s_islobby():
-    r_execute('tf_party_chat "[PowerPlay] Active Session Detected."')
-
-def r_status():
-    """Send status command to TF2"""
-    r_execute('status')
-
-def r_heartbeat_timerLoop():
-    """5 second timer for status command"""
-    r_status()
-    t = Timer(5.0, r_heartbeat_timerLoop)
-    t.start()
