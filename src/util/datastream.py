@@ -1,0 +1,1 @@
+# data pool for rcon responses & console log targets

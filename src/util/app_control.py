@@ -82,7 +82,7 @@ def app_controller():
 def status_checker():
     while True:
         app_controller()
-        if _STATUS_ == 2 or _STATUS_ == 1:
+        if _STATUS_ > 0:
             threading.Event().wait(10)
         else:
             threading.Event().wait(5)
@@ -91,6 +91,10 @@ def start_status_checker():
     check_thread = threading.Thread(target=status_checker)
     check_thread.daemon = True
     check_thread.start()
+
+def super_ultra_mega_thread(): # TODO
+    start_status_checker()
+    # datastream startup
 
 #if __name__ == "__main__":
 #    start_status_checker()

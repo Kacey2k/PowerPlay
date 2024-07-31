@@ -18,7 +18,7 @@ from src.modules.tab_settings import settings_tab
 
 # Util
 from config import check_config, cfg_app_debug
-from src.util.app_control import start_status_checker
+from src.util.app_control import super_ultra_mega_thread
 
 
 check_config()
@@ -61,7 +61,7 @@ class MainWindow(QMainWindow):
         log_message("[Main Window] | [Info] Main window initialized.")
         log_message("[Main Window] | [Info] Log for this run located in /data/logs")
 
-        start_status_checker()
+        super_ultra_mega_thread()
 
 
 def main():
