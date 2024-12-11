@@ -1,9 +1,9 @@
 import sys
 import os
 import configparser
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QPushButton, QVBoxLayout, QWidget, QFileDialog, QFrame
-from PyQt5.QtGui import QIntValidator
-from PyQt5.QtCore import Qt
+from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QPushButton, QVBoxLayout, QWidget, QFileDialog, QFrame
+from PyQt6.QtGui import QIntValidator
+from PyQt6.QtCore import Qt
 
 from src.modules.debug import log_message
 from main_window import MainWindow
@@ -144,4 +144,4 @@ def configure_window():
     app = QApplication(sys.argv)
     window = ConfigureWindow()
     window.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

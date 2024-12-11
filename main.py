@@ -1,6 +1,6 @@
 import sys
 import uuid
-from PyQt5.QtWidgets import QApplication
+from PyQt6.QtWidgets import QApplication
 
 from config import check_config, cfg_app_state
 from configure_window import configure_window
@@ -28,7 +28,7 @@ def main():
         window = MainWindow()
         window.show()
 
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
 
 if __name__ == "__main__":
     generate_runtime_id()

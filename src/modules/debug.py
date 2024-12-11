@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QTextEdit
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QTextEdit
 import logging
 import os
 from datetime import datetime

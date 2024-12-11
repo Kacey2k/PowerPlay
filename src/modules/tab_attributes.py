@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWidget
+from PyQt6.QtWidgets import QWidget
 
 def attributes_tab():
     tab = QWidget()
