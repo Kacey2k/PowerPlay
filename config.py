@@ -10,7 +10,7 @@ cfg_rcon_ip = "127.0.0.1"
 cfg_rcon_password = "your_rcon_password"
 cfg_rcon_port = 27015
 cfg_user_api_key = ""
-cfg_user_directory = "G:/SteamLibrary/steamapps/common/Team Fortress 2"
+cfg_user_directory = "A:/SteamLibrary/steamapps/common/Team Fortress 2"
 cfg_user_language = ""
 cfg_user_steamid = ""
 
