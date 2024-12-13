@@ -7,14 +7,6 @@ from configure_window import configure_window
 from main_window import MainWindow
 from src.modules.debug import log_message
 
-X_RUNTIME_ID = None
-
-def generate_runtime_id():
-    global X_RUNTIME_ID
-    X_RUNTIME_ID = uuid.uuid4().int
-    runtime_debug_string = f"[Main] | [Info] A New Runtime ID has been generated. ID: {X_RUNTIME_ID}"
-    log_message(runtime_debug_string)
-
 def main():
     check_config()
 
@@ -31,5 +23,4 @@ def main():
     sys.exit(app.exec())
 
 if __name__ == "__main__":
-    generate_runtime_id()
     main()
