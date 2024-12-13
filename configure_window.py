@@ -32,7 +32,11 @@ class ConfigureWindow(QMainWindow):
         self.setStyleSheet("background-color: #1f1f1f;")
 
         layout = QVBoxLayout()
-        # To Do: Add header maybe
+
+        header = QLabel("PowerPlay Configuration")
+        header.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        header.setStyleSheet("color: white; font: 16pt Arial;")
+        layout.addWidget(header)
 
         self.input_RCONPort_label = QLabel("RCON Port")
         self.input_RCONPort_label.setStyleSheet("color: white; font: 12pt Arial;")
