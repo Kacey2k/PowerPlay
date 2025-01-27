@@ -1,5 +1,4 @@
 import sys
-import configparser
 from PyQt6.QtWidgets import QApplication, QMainWindow, QTabWidget
 from PyQt6.QtGui import QIcon
 

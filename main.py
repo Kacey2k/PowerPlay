@@ -1,5 +1,4 @@
 import sys
-import uuid
 from PyQt6.QtWidgets import QApplication
 
 from config import check_config, cfg_app_state
