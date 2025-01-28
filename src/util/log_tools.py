@@ -8,6 +8,7 @@ sys.path.append(root)
 
 from src.modules.debug import log_message
 from src.util.app_control import _STATUS_
+from src.util.rcon_handler import r_execute
 from config import check_config, cfg_user_directory
 
 LOGFILE = cfg_user_directory + "/tf/console.log"
@@ -54,3 +55,40 @@ def log_timestamped():
             return False
     except UnicodeDecodeError as e:
         return f"Encoding Error: {e}"
+    
+def build_ping_config_files():
+    """Builds 2 config files used for config tests.\n
+    powerplayping.cfg - calls the powerplayping_reply.cfg within it after 50 ticks to produce a response in console.log
+    """
+
+    # PowerPlay Ping - Initializer cfg
+    powerplayping_text = """// This file is needed for "PowerPlay" to operate normally.
+echo "PowerPlay Ping Starting. . ."
+exec powerplayping_reply.cfg
+"""
+    
+    # PowerPlay Ping - Reply cfg
+    powerplayping_reply_text = """// This file is needed for "PowerPlay" to operate normally.
+wait 50; echo "[DEBUG] | [POWERPLAY PING]"
+"""
+    
+    try:
+        with open(cfg_user_directory + "/tf/cfg/powerplayping.cfg", 'w') as f:
+            f.write(powerplayping_text)
+        
+        with open(cfg_user_directory + "/tf/cfg/powerplayping_reply.cfg", 'w') as f:
+            f.write(powerplayping_reply_text)
+    except Exception as e:
+        log_message(f"Error: {e}")
+
+    
+def log_ping():
+    """Issues a ping to the console.log file using RCON"""
+    try:
+        r_execute("exec powerplayping.cfg")
+    except Exception as e:
+        log_message(f"Error: {e}")
+    
+if __name__ == "__main__":
+    build_ping_config_files()
+    log_ping()
