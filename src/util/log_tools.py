@@ -81,6 +81,30 @@ wait 50; echo "[DEBUG] | [POWERPLAY PING]"
     except Exception as e:
         log_message(f"Error: {e}")
 
+def validate_configs():
+    try:
+        config_files = [
+            cfg_user_directory + "/tf/cfg/powerplayping.cfg",
+            cfg_user_directory + "/tf/cfg/powerplayping_reply.cfg"
+        ]
+        for file_path in config_files:
+            if not os.path.exists(file_path):
+                log_message(f"[LOG TOOLS] | [ERROR] Missing config file: {file_path}")
+                return False
+            
+            with open(file_path, 'r') as f:
+                content = f.read()
+                if "// This file is needed for \"PowerPlay\" to operate normally." not in content:
+                    log_message(f"[LOG TOOLS] | [ERROR] Config file is missing required content: {file_path}")
+                    return False
+        
+        log_message("[LOG TOOLS] | [INFO] Config files validated successfully.")
+        return True
+    except Exception as e:
+        log_message(f"[LOG TOOLS] | [ERROR] Failed to validate config files: {e}")
+        return False
+
+
     
 def log_ping():
     """Issues a ping to the console.log file using RCON"""
@@ -90,5 +114,4 @@ def log_ping():
         log_message(f"Error: {e}")
     
 if __name__ == "__main__":
-    build_ping_config_files()
-    log_ping()
+    validate_configs()
