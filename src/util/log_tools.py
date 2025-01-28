@@ -1,6 +1,7 @@
 import sys
 import os
 import chardet
+import re
 
 root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 sys.path.append(root)
@@ -39,5 +40,17 @@ def logging_ready():
         log_message("[LOG TOOLS] | [INFO] Console Logging is active.")
         return True
 
-if __name__ == "__main__":
-    find_encoding(LOGFILE)
+def log_timestamped():
+    """Boolean check for whether log is timestamped\n
+    Example timestamp: 01/01/2025 - 12:34:56:
+    """
+    timestamp_pattern = re.compile(r'^\d{2}/\d{2}/\d{4} - \d{2}:\d{2}:\d{2}:')
+    
+    try:
+        with open(LOGFILE, 'r', encoding='latin-1') as f:
+            for line in f:
+                if timestamp_pattern.match(line):
+                    return True
+            return False
+    except UnicodeDecodeError as e:
+        return f"Encoding Error: {e}"
