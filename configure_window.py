@@ -21,6 +21,8 @@ from config import check_config
 # - Debug field
 # - Help button
 
+SETTINGS_FILE = os.path.join("data", "user", "settings_sample.ini")
+
 class ConfigureWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -114,7 +116,7 @@ class ConfigureWindow(QMainWindow):
             log_message(submitted_info)
             
             config = configparser.ConfigParser()
-            config.read('settings_sample.ini')
+            config.read(SETTINGS_FILE)
             
             if not config.has_section('rcon'):
                 config.add_section('rcon')
@@ -128,7 +130,7 @@ class ConfigureWindow(QMainWindow):
             config.set('user', 'directory', tf_directory)
             config.set('app', 'state', '1')
             
-            with open('settings_sample.ini', 'w') as configfile:
+            with open(SETTINGS_FILE, 'w') as configfile:
                 config.write(configfile)
                 
             log_message("[Configure Window] | [Info] Configuration updated!")

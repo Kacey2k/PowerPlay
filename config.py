@@ -14,6 +14,8 @@ cfg_user_directory = "A:/SteamLibrary/steamapps/common/Team Fortress 2"
 cfg_user_language = ""
 cfg_user_steamid = ""
 
+SETTINGS_FILE = os.path.join("data", "user", "settings.ini")
+
 def check_config():
     """Reads settings.ini and sets global variables for each setting.\n
     Run this function before importing a variable to ensure the most up-to-date value.\n
@@ -39,8 +41,10 @@ def check_config():
     global cfg_user_language
     global cfg_user_steamid
 
+    os.makedirs(os.path.dirname(SETTINGS_FILE), exist_ok=True)
+
     # check for whether the settings.ini file exists
-    if not os.path.exists('settings.ini'):
+    if not os.path.exists(SETTINGS_FILE):
         log_message("[CONFIG] | [Warning] settings.ini not found, creating a new one. Recommend restarting.")
         config = configparser.ConfigParser()
         config['app'] = {
@@ -59,11 +63,11 @@ def check_config():
             'language': '',
             'steamid': ''
         }
-        with open('settings.ini', 'w') as configfile:
+        with open(SETTINGS_FILE, 'w') as configfile:
             config.write(configfile)
     else:
         config = configparser.ConfigParser()
-        config.read('settings.ini')
+        config.read(SETTINGS_FILE)
         cfg_app_state = config.getint('app', 'state')
         cfg_app_debug = config.getint('app', 'debug')
         cfg_app_notification = config.getint('app', 'notification')
@@ -75,3 +79,15 @@ def check_config():
         cfg_user_language = config.get('user', 'language')
         cfg_user_steamid = config.get('user', 'steamid')
         log_message("[CONFIG] | [Info] Global configuration variables refreshed.")
+
+def get_config():
+    """Prints current settings.ini configuration."""
+
+    log_message("[CONFIG] | [Info] Current setting configuration:\n ")
+
+    file = open(SETTINGS_FILE, 'r')
+    log_message("\n" + file.read())
+    file.close()
+
+if __name__ == "__main__":
+    get_config()

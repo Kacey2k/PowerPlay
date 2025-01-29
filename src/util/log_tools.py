@@ -119,7 +119,7 @@ def search_string(string):
                 if regex.search(line):
                     matches.append((line_number, line.strip()))
 
-        log_message(f"[LOG TOOLS -> SEARCH STRING] | [INFO] Found matching lines at {', '.join(str(num) for num, _ in matches)}. Totalling in {len(matches)} matches.")
+        log_message(f"[LOG TOOLS -> SEARCH STRING] | [INFO] Found matching lines at {', '.join(str(num) for num, _ in matches)}. Totalling in {len(matches)} matches of '{string}'")
     except Exception as e:
         log_message(f"[LOG TOOLS -> SEARCH STRING] | [ERROR] Failed to search: {e}")
     
@@ -139,7 +139,7 @@ def search_regex(pattern):
                 if regex.search(line):
                     matches.append((line_number, line.strip()))
 
-        log_message(f"[LOG TOOLS -> SEARCH REGEX] | [INFO] Found matching lines at {', '.join(str(num) for num, _ in matches)}. Totalling in {len(matches)} matches.")
+        log_message(f"[LOG TOOLS -> SEARCH REGEX] | [INFO] Found matching lines at {', '.join(str(num) for num, _ in matches)}. Totalling in {len(matches)} matches of '{pattern}'")
     except Exception as e:
         log_message(f"[LOG TOOLS -> SEARCH REGEX] | [ERROR] Failed to search: {e}")
     
@@ -166,4 +166,4 @@ def log_ping():
         log_message(f"[LOG TOOLS -> LOG PING] | [ERROR] Failed to execute: {e}")
     
 if __name__ == "__main__":
-    log_ping()
+    search_string("PartyClientDbg")
