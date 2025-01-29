@@ -104,14 +104,55 @@ def validate_configs():
         log_message(f"[LOG TOOLS] | [ERROR] Failed to validate config files: {e}")
         return False
 
+def search_string(string):
+    """Test script for finding text in console log."""
+    if not log_exists():
+        return []
+    
+    matches = []
+    try:
+        escaped_pattern = re.escape(string) 
+        regex = re.compile(escaped_pattern)  
+
+        with open(LOGFILE, 'r', encoding='latin-1') as f:
+            for line_number, line in enumerate(f, start=1):
+                if regex.search(line):
+                    matches.append((line_number, line.strip()))
+
+        log_message(f"[LOG TOOLS -> SEARCH STRING] | [INFO] Found matching lines at {', '.join(str(num) for num, _ in matches)}. Totalling in {len(matches)} matches.")
+    except Exception as e:
+        log_message(f"[LOG TOOLS -> SEARCH STRING] | [ERROR] Failed to search: {e}")
+    
+    return matches
+
+def search_regex(pattern):
+    """Test script for validating regex patterns in console log."""
+    if not log_exists():
+        return []
+    
+    matches = []
+    try:
+        regex = re.compile(pattern)
+
+        with open(LOGFILE, 'r', encoding='latin-1') as f:
+            for line_number, line in enumerate(f, start=1):
+                if regex.search(line):
+                    matches.append((line_number, line.strip()))
+
+        log_message(f"[LOG TOOLS -> SEARCH REGEX] | [INFO] Found matching lines at {', '.join(str(num) for num, _ in matches)}. Totalling in {len(matches)} matches.")
+    except Exception as e:
+        log_message(f"[LOG TOOLS -> SEARCH REGEX] | [ERROR] Failed to search: {e}")
+    
+    return matches
 
     
 def log_ping():
-    """Issues a ping to the console.log file using RCON"""
+    """Issues a ping to the console.log file using RCON\n
+    Does not 'log your ping.'"""
     try:
         r_execute("exec powerplayping.cfg")
     except Exception as e:
         log_message(f"Error: {e}")
     
 if __name__ == "__main__":
-    validate_configs()
+    search_regex(r"^\d{2}/\d{2}/\d{4} - \d{2}:\d{2}:\d{2}: Cannot figure out which search path (.+?) came from\. Not playing\.$")
