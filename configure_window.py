@@ -1,11 +1,12 @@
+from pathlib import Path
 import sys
-import os
 import configparser
 from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QPushButton, QVBoxLayout, QWidget, QFileDialog, QFrame
 from PyQt6.QtGui import QIntValidator
 from PyQt6.QtCore import Qt
 
 from src.modules.debug import log_message
+from src.util.log_tools import build_ping_config_files
 from main_window import MainWindow
 from config import check_config
 
@@ -21,7 +22,7 @@ from config import check_config
 # - Debug field
 # - Help button
 
-SETTINGS_FILE = os.path.join("data", "user", "settings_sample.ini")
+SETTINGS_FILE = Path(__file__).resolve().parent / "data/user/settings_sample.ini"
 
 class ConfigureWindow(QMainWindow):
     def __init__(self):
@@ -105,7 +106,7 @@ class ConfigureWindow(QMainWindow):
                 self.submit_button.setEnabled(False)
 
     def validate_tf2_directory(self, directory):
-        return os.path.basename(directory) == "Team Fortress 2"
+        return Path(directory).exists() and Path(directory).joinpath("tf").exists()
 
     def submit_input(self):
         rcon_port = self.input_RCONPort.text()
@@ -134,6 +135,7 @@ class ConfigureWindow(QMainWindow):
                 config.write(configfile)
                 
             log_message("[Configure Window] | [Info] Configuration updated!")
+            build_ping_config_files() # We have the directory now, so we can build the log ping config files
             check_config()
             return True
         else:

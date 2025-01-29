@@ -1,5 +1,5 @@
+from pathlib import Path
 import configparser
-import os
 
 from src.modules.debug import log_message
 
@@ -14,7 +14,7 @@ cfg_user_directory = "A:/SteamLibrary/steamapps/common/Team Fortress 2"
 cfg_user_language = ""
 cfg_user_steamid = ""
 
-SETTINGS_FILE = os.path.join("data", "user", "settings.ini")
+SETTINGS_FILE = Path(__file__).resolve().parent / "data/user/settings.ini"
 
 def check_config():
     """Reads settings.ini and sets global variables for each setting.\n
@@ -41,10 +41,10 @@ def check_config():
     global cfg_user_language
     global cfg_user_steamid
 
-    os.makedirs(os.path.dirname(SETTINGS_FILE), exist_ok=True)
+    SETTINGS_FILE.parent.mkdir(parents=True, exist_ok=True)
 
     # check for whether the settings.ini file exists
-    if not os.path.exists(SETTINGS_FILE):
+    if not SETTINGS_FILE.exists():
         log_message("[CONFIG] | [Warning] settings.ini not found, creating a new one. Recommend restarting.")
         config = configparser.ConfigParser()
         config['app'] = {
@@ -84,10 +84,7 @@ def get_config():
     """Prints current settings.ini configuration."""
 
     log_message("[CONFIG] | [Info] Current setting configuration:\n ")
-
-    file = open(SETTINGS_FILE, 'r')
-    log_message("\n" + file.read())
-    file.close()
+    log_message("\n" + SETTINGS_FILE.read_text())
 
 if __name__ == "__main__":
     get_config()

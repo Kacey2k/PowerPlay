@@ -1,21 +1,21 @@
 import sys
-import os
+from pathlib import Path
 import chardet
 import re
 
-root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-sys.path.append(root)
+root = Path(__file__).resolve().parent.parent.parent
+sys.path.append(str(root))
 
 from src.modules.debug import log_message
 from src.util.app_control import _STATUS_
 from src.util.rcon_handler import r_execute
 from config import check_config, cfg_user_directory
 
-LOGFILE = cfg_user_directory + "/tf/console.log"
+LOGFILE = Path(cfg_user_directory) / "tf/console.log"
 
 def log_exists():
     check_config()
-    if os.path.exists(LOGFILE):
+    if (LOGFILE).exists():
         log_message("[LOG TOOLS] | [INFO] Log file exists!")
         return True
     else:
@@ -73,30 +73,26 @@ wait 50; echo "[DEBUG] | [POWERPLAY PING]"
 """
     
     try:
-        with open(cfg_user_directory + "/tf/cfg/powerplayping.cfg", 'w') as f:
-            f.write(powerplayping_text)
-        
-        with open(cfg_user_directory + "/tf/cfg/powerplayping_reply.cfg", 'w') as f:
-            f.write(powerplayping_reply_text)
+        (Path(cfg_user_directory) / "tf/cfg/powerplayping.cfg").write_text(powerplayping_text)
+        (Path(cfg_user_directory) / "tf/cfg/powerplayping_reply.cfg").write_text(powerplayping_reply_text)
     except Exception as e:
         log_message(f"Error: {e}")
 
 def validate_configs():
     try:
         config_files = [
-            cfg_user_directory + "/tf/cfg/powerplayping.cfg",
-            cfg_user_directory + "/tf/cfg/powerplayping_reply.cfg"
+            Path(cfg_user_directory) / "tf/cfg/powerplayping.cfg",
+            Path(cfg_user_directory) / "tf/cfg/powerplayping_reply.cfg"
         ]
         for file_path in config_files:
-            if not os.path.exists(file_path):
+            if not file_path.exists():
                 log_message(f"[LOG TOOLS] | [ERROR] Missing config file: {file_path}")
                 return False
             
-            with open(file_path, 'r') as f:
-                content = f.read()
-                if "// This file is needed for \"PowerPlay\" to operate normally." not in content:
-                    log_message(f"[LOG TOOLS] | [ERROR] Config file is missing required content: {file_path}")
-                    return False
+            content = file_path.read_text()
+            if "// This file is needed for \"PowerPlay\" to operate normally." not in content:
+                log_message(f"[LOG TOOLS] | [ERROR] Config file is missing required content: {file_path}")
+                return False
         
         log_message("[LOG TOOLS] | [INFO] Config files validated successfully.")
         return True

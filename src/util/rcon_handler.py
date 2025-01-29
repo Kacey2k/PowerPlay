@@ -1,11 +1,12 @@
-import os
+from pathlib import Path
 import sys
 import rcon
 import threading
 from rcon.source import Client
 from threading import Timer
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
+root = Path(__file__).resolve().parent.parent.parent
+sys.path.append(str(root))
 
 from src.modules.debug import log_message
 from config import check_config, cfg_rcon_ip, cfg_rcon_port, cfg_rcon_password
@@ -30,3 +31,6 @@ def r_execute(rcon_command):
             return response
     except Exception as e:
         log_message(f"[Rcon] | [Error] Failed to execute command '{rcon_command}': {e}")
+
+if __name__ == "__main__":
+    r_execute('tf_party_chat "[PowerPlay] Debug Message"')

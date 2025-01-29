@@ -1,7 +1,8 @@
+from pathlib import Path
 import sys
-import os
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
+root = Path(__file__).resolve().parent.parent.parent
+sys.path.append(str(root))
 
 from src.util.app_control import SESSION_ACTIVE
 

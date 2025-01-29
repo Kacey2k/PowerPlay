@@ -7,10 +7,10 @@
 # - Data that uses multiple lines sometimes is not presented chronologically, "status" is a repeat offender
 
 import sys
-import os
+from pathlib import Path
 
-root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-sys.path.append(root)
+root = Path(__file__).resolve().parent.parent.parent
+sys.path.append(str(root))
 
 from src.modules.debug import log_message
 from src.util.log_tools import logging_ready, log_exists

@@ -1,13 +1,13 @@
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QTextEdit
 import logging
-import os
+from pathlib import Path
 from datetime import datetime
 
 global_debug_log = None
 
-log_dir = os.path.join(os.getcwd(), 'data', 'logs')
-os.makedirs(log_dir, exist_ok=True)
-log_filename = os.path.join(log_dir, f'PowerPlayLog_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log')
+log_dir = Path.cwd() / 'data' / 'logs'
+log_dir.mkdir(parents=True, exist_ok=True)
+log_filename = log_dir / f'PowerPlayLog_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'
 
 logging.basicConfig(
     level=logging.DEBUG,
