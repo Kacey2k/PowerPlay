@@ -145,14 +145,25 @@ def search_regex(pattern):
     
     return matches
 
-    
 def log_ping():
-    """Issues a ping to the console.log file using RCON\n
-    Does not 'log your ping.'"""
+    """Issues a ping to the console.log file using RCON.\n
+    Does not 'log your ping.'\n
+    If the config files are missing, it will attempt to rebuild them first.
+    """
     try:
+        if not validate_configs():
+            log_message("[LOG TOOLS -> LOG PING] | [WARNING] Missing or invalid config files. Rebuilding...")
+            build_ping_config_files()
+
+            if not validate_configs():
+                log_message("[LOG TOOLS -> LOG PING] | [ERROR] Config files could not be created. Aborting.")
+                return
+            
         r_execute("exec powerplayping.cfg")
+        log_message("[LOG TOOLS -> LOG PING] | [INFO] Attempted console ping. See rcon response for details.")
+
     except Exception as e:
-        log_message(f"Error: {e}")
+        log_message(f"[LOG TOOLS -> LOG PING] | [ERROR] Failed to execute: {e}")
     
 if __name__ == "__main__":
-    search_regex(r"^\d{2}/\d{2}/\d{4} - \d{2}:\d{2}:\d{2}: Cannot figure out which search path (.+?) came from\. Not playing\.$")
+    log_ping()
