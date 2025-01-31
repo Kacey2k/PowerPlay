@@ -2,6 +2,7 @@ from pathlib import Path
 import sys
 import psutil
 import threading
+import platform
 import time
 
 project_root = Path(__file__).resolve().parent.parent.parent
@@ -9,17 +10,55 @@ sys.path.append(str(project_root))
 
 from src.modules.debug import log_message
 from src.util.rcon_handler import r_execute
+from config import check_config, cfg_user_directory
 
+USER_OS = "win64"
+TF2_EXECUTABLE = None
 TF2_OPENED = False
 RCON_CONFIGURED = False
 SESSION_ACTIVE = False
 _STATUS_ = -1
+
+OPERATING_SYSTEM = {
+    'win64': 'Windows 64-bit',
+    'win32': 'Windows 32-bit',
+    'alt': 'Linux'
+}
 
 TF2_BINARIES = {
     'alt': 'hl2.exe',
     'win64': 'tf_win64.exe',
     'win32': 'tf.exe',
 }
+
+def figure_out_os():
+    """Determine which Operating System the user is on."""
+    global USER_OS
+    current_system = platform.system().lower()  # windows or linux
+    arch, _ = platform.architecture()           # 64bit or 32bit
+
+    if current_system == 'windows':
+        if '64' in arch:
+            USER_OS = 'win64'
+        else:
+            USER_OS = 'win32'
+    else:
+        USER_OS = 'alt' # linux
+
+    log_message(f"[OS Detection] | [Info] Current operating system: {OPERATING_SYSTEM.get(USER_OS, 'Unknown')}")
+
+# Might discard this approach and instead attempt launching from Steam directly, as this way is proving finicky. https://www.youtube.com/watch?v=n5TpNmS4OX0
+# TODO : NEED USER'S >STEAM.exe< DIRECTORY (TF2 DIR CAN BE DIFFERENT)
+
+def get_tf2_executable():
+    """Get the path to the TF2 executable"""
+    global TF2_EXECUTABLE
+    check_config()
+    if not cfg_user_directory:
+        log_message("[TF2 Executable] | [Error] cfg_user_directory is missing. app_state may be mistakenly set to 1.")
+    else:
+        TF2_EXECUTABLE = Path(cfg_user_directory) / TF2_BINARIES.get(USER_OS)
+        log_message(f"[TF2 Executable] | [Info] TF2 executable path: {TF2_EXECUTABLE}")
 
 def check_tf2():
     """Check if TF2 is open"""
@@ -94,6 +133,8 @@ def start_status_checker():
 
 def super_ultra_mega_thread(): # TODO
     start_status_checker()
+    figure_out_os()
+    get_tf2_executable()
     # datastream startup
 
 #if __name__ == "__main__":

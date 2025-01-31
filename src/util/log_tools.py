@@ -100,7 +100,7 @@ def validate_configs():
         log_message(f"[LOG TOOLS] | [ERROR] Failed to validate config files: {e}")
         return False
 
-def search_string(string):
+def search_string(string): # Example : search_string("01/01/2025 - 12:34:56:")
     """Test script for finding text in console log."""
     if not log_exists():
         return []
@@ -121,7 +121,7 @@ def search_string(string):
     
     return matches
 
-def search_regex(pattern):
+def search_regex(pattern): # Example : search_regex(r'^\d{2}/\d{2}/\d{4} - \d{2}:\d{2}:\d{2}:')
     """Test script for validating regex patterns in console log."""
     if not log_exists():
         return []
@@ -160,6 +160,6 @@ def log_ping():
 
     except Exception as e:
         log_message(f"[LOG TOOLS -> LOG PING] | [ERROR] Failed to execute: {e}")
-    
+
 if __name__ == "__main__":
     search_string("PartyClientDbg")
