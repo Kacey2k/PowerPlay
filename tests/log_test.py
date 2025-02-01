@@ -4,9 +4,9 @@ import sys
 root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(root)
 
-from config import cfg_user_directory
+from config import cfg_user_TFdirectory
 
-console_log = cfg_user_directory + "/tf/console.log"
+console_log = cfg_user_TFdirectory + "/tf/console.log"
 
 LOG_PRESENT = False
 LOG_LINES = 0

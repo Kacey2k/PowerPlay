@@ -6,6 +6,7 @@ from PyQt6.QtGui import QIntValidator
 from PyQt6.QtCore import Qt
 
 from src.modules.debug import log_message
+from src.util.app_control import get_steam_directory
 from src.util.log_tools import build_ping_config_files
 from main_window import MainWindow
 from config import check_config
@@ -128,14 +129,17 @@ class ConfigureWindow(QMainWindow):
             
             config.set('rcon', 'rcon_port', rcon_port)
             config.set('rcon', 'rcon_password', rcon_password)
-            config.set('user', 'directory', tf_directory)
+            config.set('user', 'TFdirectory', tf_directory)
             config.set('app', 'state', '1')
             
             with open(SETTINGS_FILE, 'w') as configfile:
                 config.write(configfile)
                 
             log_message("[Configure Window] | [Info] Configuration updated!")
+
+            # Initialize 1st time stuff here
             build_ping_config_files() # We have the directory now, so we can build the log ping config files
+            get_steam_directory() # Need this before user tries launching TF2
             check_config()
             return True
         else:

@@ -9,9 +9,9 @@ sys.path.append(str(root))
 from src.modules.debug import log_message
 from src.util.app_control import _STATUS_
 from src.util.rcon_handler import r_execute
-from config import check_config, cfg_user_directory
+from config import check_config, cfg_user_TFdirectory
 
-LOGFILE = Path(cfg_user_directory) / "tf/console.log"
+LOGFILE = Path(cfg_user_TFdirectory) / "tf/console.log"
 
 def log_exists():
     check_config()
@@ -73,16 +73,16 @@ wait 50; echo "[DEBUG] | [POWERPLAY PING]"
 """
     
     try:
-        (Path(cfg_user_directory) / "tf/cfg/powerplayping.cfg").write_text(powerplayping_text)
-        (Path(cfg_user_directory) / "tf/cfg/powerplayping_reply.cfg").write_text(powerplayping_reply_text)
+        (Path(cfg_user_TFdirectory) / "tf/cfg/powerplayping.cfg").write_text(powerplayping_text)
+        (Path(cfg_user_TFdirectory) / "tf/cfg/powerplayping_reply.cfg").write_text(powerplayping_reply_text)
     except Exception as e:
         log_message(f"Error: {e}")
 
 def validate_configs():
     try:
         config_files = [
-            Path(cfg_user_directory) / "tf/cfg/powerplayping.cfg",
-            Path(cfg_user_directory) / "tf/cfg/powerplayping_reply.cfg"
+            Path(cfg_user_TFdirectory) / "tf/cfg/powerplayping.cfg",
+            Path(cfg_user_TFdirectory) / "tf/cfg/powerplayping_reply.cfg"
         ]
         for file_path in config_files:
             if not file_path.exists():

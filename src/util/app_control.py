@@ -10,9 +10,10 @@ sys.path.append(str(project_root))
 
 from src.modules.debug import log_message
 from src.util.rcon_handler import r_execute
-from config import check_config, cfg_user_directory
+from config import check_config, cfg_user_TFdirectory
 
 USER_OS = "win64"
+STEAM_DIRECTORY = None
 TF2_EXECUTABLE = None
 TF2_OPENED = False
 RCON_CONFIGURED = False
@@ -22,7 +23,7 @@ _STATUS_ = -1
 OPERATING_SYSTEM = {
     'win64': 'Windows 64-bit',
     'win32': 'Windows 32-bit',
-    'alt': 'Linux'
+    'alt': 'Linux' # Currently not supported
 }
 
 TF2_BINARIES = {
@@ -47,17 +48,33 @@ def figure_out_os():
 
     log_message(f"[OS Detection] | [Info] Current operating system: {OPERATING_SYSTEM.get(USER_OS, 'Unknown')}")
 
-# Might discard this approach and instead attempt launching from Steam directly, as this way is proving finicky. https://www.youtube.com/watch?v=n5TpNmS4OX0
-# TODO : NEED USER'S >STEAM.exe< DIRECTORY (TF2 DIR CAN BE DIFFERENT)
+def get_steam_directory(): # Thanks to https://github.com/aftershavetf2 for teaching me about this!
+    """Get the directory where Steam is installed using Windows registry."""
+    global STEAM_DIRECTORY
+    check_config()
+    try:
+        import winreg
+        key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"Software\Valve\Steam")
+        steam_path, _ = winreg.QueryValueEx(key, "SteamPath")
+        winreg.CloseKey(key)
+        steamexe_path = Path(steam_path) / "Steam.exe"
+        STEAM_DIRECTORY = steamexe_path
+        log_message(f"[Steam Directory] | [Info] Steam executable found at: {steamexe_path}")
+        return steamexe_path
+    except Exception as e:
+        STEAM_DIRECTORY = None
+        log_message(f"[Steam Directory] | [Error] Could not locate Steam executable. {e}")
+        log_message("[Steam Directory] | [Info] If you are on Linux, try to manually set the Steam directory in settings.ini. (STEAMdirectory = /path/to/steam)")
+        return None
 
 def get_tf2_executable():
     """Get the path to the TF2 executable"""
     global TF2_EXECUTABLE
     check_config()
-    if not cfg_user_directory:
+    if not cfg_user_TFdirectory:
         log_message("[TF2 Executable] | [Error] cfg_user_directory is missing. app_state may be mistakenly set to 1.")
     else:
-        TF2_EXECUTABLE = Path(cfg_user_directory) / TF2_BINARIES.get(USER_OS)
+        TF2_EXECUTABLE = Path(cfg_user_TFdirectory) / TF2_BINARIES.get(USER_OS)
         log_message(f"[TF2 Executable] | [Info] TF2 executable path: {TF2_EXECUTABLE}")
 
 def check_tf2():
