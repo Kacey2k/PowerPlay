@@ -160,3 +160,5 @@ cython_debug/
 #.idea/
 data/user/settings.ini
 data/user/settings_sample.ini
+/data/user
+*.ini
